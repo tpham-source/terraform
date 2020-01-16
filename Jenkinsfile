@@ -18,8 +18,8 @@ pipeline {
 
     stage('TF File Param') {
       steps {
- 	writeFile file: 'setup.tfvars', text: params.TFVARS
-        cat setup.tfvars
+ 	writeFile file: "setup.tfvars", text: params.TFVARS
+        sh 'cat setup.tfvars'
       }
     }
 
