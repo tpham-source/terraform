@@ -16,24 +16,10 @@ pipeline {
       }
     }
 
-    stage('TF Plan') {
+    stage('TF File Param') {
       steps {
-        sh 'terraform init'
-        sh 'terraform plan -out myplan'
-      }      
-    }
-
-    stage('Approval') {
-      steps {
-        script {
-          def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])
-        }
-      }
-    }
-
-    stage('TF Apply') {
-      steps {
-        sh 'terraform apply -input=false myplan'
+ 	writeFile file: 'setup.tfvars', text: params.TFVARS
+        cat setup.tfvars
       }
     }
 
