@@ -4,7 +4,7 @@ pipeline {
 
   environment {
     SVC_ACCOUNT_KEY = credentials('terraform-auth')
-    GOOGLE_APPLICATION_CREDENTIALS = ./serviceaccount.json
+    GOOGLE_APPLICATION_CREDENTIALS = "${env.WORKSPACE}" + "/serviceaccount.json"
   }
 
   stages {
@@ -12,7 +12,8 @@ pipeline {
     stage('Checkout') {
       steps {
         checkout scm
-        sh 'echo $SVC_ACCOUNT_KEY | base64 -d > ./serviceaccount.json'
+        sh 'echo GOOGLE_APPLICATION_CREDENTIAL=$GOOGLE_APPLICATION_CREDENTIALS'
+        sh 'echo $SVC_ACCOUNT_KEY | base64 -d > $GOOGLE_APPLICATION_CREDENTIALS'
       }
     }
 
